@@ -73,7 +73,7 @@ class KeyTree{
     iterator iter(){ return depth_iter(); }
     depth_iterator depth_iter(){ return depth_iterator(this); }
     wide_iterator wide_iter(){ return wide_iterator(this); }
-    KeyTree():_depth(0),_parent(NULL){}  //构造函数，初始化
+    KeyTree():_depth(0),_parent(NULL){}  //构造函数，初始化depth为0，parent为空。
     ~KeyTree();
     V& v(){return _value;}
     V& operator*(){return _value;}
