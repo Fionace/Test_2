@@ -155,6 +155,8 @@ KeyTree<K,V>::depth_iterator::operator++(){  //多个作用域解析符
     }
     return *this;
 }
+
+//kept是deque型
 template<class K,class V>
 typename KeyTree<K,V>::wide_iterator& 
 KeyTree<K,V>::wide_iterator::operator++(){
