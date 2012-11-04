@@ -12,7 +12,7 @@ class KeyTree{
     V _value;
     map<K,KeyTree*> _child;
     KeyTree* _parent;
-    int _depth;
+    int _depth;  //定义的变量
     void delete_child(KeyTree*);
     class _iterator{
         friend class KeyTree;  //友元类：KeyTree
@@ -29,7 +29,7 @@ class KeyTree{
             _iterator():tree(NULL),ended(false){}   //组合类的构造函数
             _iterator(KeyTree* kt):tree(kt),ended(false){} //组合类的构造函数
             operator bool(){return !ended;}
-            operator KeyTree*(){ return _ptr(); }//为什么没有函数类型部分？
+            operator KeyTree*(){ return _ptr(); }//为什么没有函数类型部分？  重载强制转换，bool，KeyTree能说明返回类型
 
             KeyTree& operator*(){ return *_ptr();} //操作符重载
             KeyTree* operator->(){ return _ptr(); }
@@ -73,7 +73,7 @@ class KeyTree{
     iterator iter(){ return depth_iter(); }
     depth_iterator depth_iter(){ return depth_iterator(this); }
     wide_iterator wide_iter(){ return wide_iterator(this); }
-    KeyTree():_depth(0),_parent(NULL){}
+    KeyTree():_depth(0),_parent(NULL){}  //构造函数，初始化
     ~KeyTree();
     V& v(){return _value;}
     V& operator*(){return _value;}
