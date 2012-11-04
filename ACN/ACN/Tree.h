@@ -10,17 +10,17 @@ class KeyTree{
     typedef typename map<K,KeyTree*>::iterator Child_Iter;
     typedef pair<Child_Iter,Child_Iter> Iter_Val;
     V _value;
-    map<K,KeyTree*> _child;
+    map<K,KeyTree*> _child;//每个结点是个map型
     KeyTree* _parent;
     int _depth;  //定义的变量
     void delete_child(KeyTree*);
     class _iterator{
         friend class KeyTree;  //友元类：KeyTree
         protected:
-            KeyTree* tree;
+            KeyTree* tree;  //整个树吧
             bool ended;
-            Child_Iter ptr;
-            Child_Iter end;
+            Child_Iter ptr;  //迭代器
+            Child_Iter end;  //迭代器
             KeyTree* _ptr(){
                 if(tree) return tree;
                 else return ptr->second;
@@ -43,6 +43,7 @@ class KeyTree{
             }
     };
     public:
+//深度遍历用stack
     class depth_iterator:public _iterator{ //类depth_iterator以公有方式继承_iterator
         friend class KeyTree;    //友元类：KeyTree
         stack<Iter_Val> kept; 
@@ -56,12 +57,13 @@ class KeyTree{
             return ite;
         }
     };
+//广度遍历用deque
     class wide_iterator:public _iterator{
         friend class KeyTree;
         deque<Iter_Val> kept;
         public:
-        wide_iterator():_iterator(){}
-        wide_iterator(KeyTree* t):_iterator(t){}
+        wide_iterator():_iterator(){}  //构造函数
+        wide_iterator(KeyTree* t):_iterator(t){}  //构造函数
         wide_iterator& operator++();
         wide_iterator operator++(int){
             wide_iterator ite = *this;
@@ -71,7 +73,7 @@ class KeyTree{
     };
     typedef depth_iterator iterator;
     iterator iter(){ return depth_iter(); }
-    depth_iterator depth_iter(){ return depth_iterator(this); }
+    depth_iterator depth_iter(){ return depth_iterator(this); } //this 返回调用该方法的对象本身
     wide_iterator wide_iter(){ return wide_iterator(this); }
     KeyTree():_depth(0),_parent(NULL){}  //构造函数，初始化depth为0，parent为空。
     ~KeyTree();
@@ -95,28 +97,28 @@ KeyTree<K,V>::add_child(const K& key,const V& value)
     n->_value = value;
     n->_depth = _depth+1;
     _child[key] = n;
-    return n;
+    return n;//返回一个KeyTree结点
 }
 
 template<class K,class V>
-void KeyTree<K,V>::delete_child(KeyTree* tree)
+void KeyTree<K,V>::delete_child(KeyTree* tree) //delete掉整个树！
 {
     Child_Iter ite;
     for(ite = tree->_child.begin();ite != tree->_child.end();ite++){
-        delete ite->second;
+        delete ite->second;   //ite->second是KeyTree型
     }
-    _child.clear();
+    _child.clear(); //清空map型
 }
 
 template<class K,class V>
 KeyTree<K,V>::~KeyTree()
 {
-    delete_child(this);
+    delete_child(this);  //参数为调用该方法的对象本身
 }
 
 template<class K,class V>
 typename KeyTree<K,V>::depth_iterator& 
-KeyTree<K,V>::depth_iterator::operator++(){
+KeyTree<K,V>::depth_iterator::operator++(){  //多个作用域解析符
     bool& ended = this->ended;
     Child_Iter& ptr = this->ptr;
     Child_Iter& end = this->end;
@@ -129,8 +131,8 @@ KeyTree<K,V>::depth_iterator::operator++(){
         if(ptr!=end){
             return *this;
         }
-        do{
-            if(kept.empty()){
+        do{  
+            if(kept.empty()){   //kept是栈类型
                 ended = true;
                 return *this;
             }
