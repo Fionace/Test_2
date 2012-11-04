@@ -15,7 +15,7 @@ class KeyTree{
     int _depth;
     void delete_child(KeyTree*);
     class _iterator{
-        friend class KeyTree;
+        friend class KeyTree;  //友元类：KeyTree
         protected:
             KeyTree* tree;
             bool ended;
@@ -26,11 +26,12 @@ class KeyTree{
                 else return ptr->second;
             }
         public:
-            _iterator():tree(NULL),ended(false){}
-            _iterator(KeyTree* kt):tree(kt),ended(false){}
+            _iterator():tree(NULL),ended(false){}   //组合类的构造函数
+            _iterator(KeyTree* kt):tree(kt),ended(false){} //组合类的构造函数
             operator bool(){return !ended;}
-            operator KeyTree*(){ return _ptr(); }
-            KeyTree& operator*(){ return *_ptr();}
+            operator KeyTree*(){ return _ptr(); }//为什么没有函数类型部分？
+
+            KeyTree& operator*(){ return *_ptr();} //操作符重载
             KeyTree* operator->(){ return _ptr(); }
             _iterator& operator=(KeyTree* t){
                 tree = t;ended=false;
@@ -42,12 +43,12 @@ class KeyTree{
             }
     };
     public:
-    class depth_iterator:public _iterator{
-        friend class KeyTree;
-        stack<Iter_Val> kept;
+    class depth_iterator:public _iterator{ //类depth_iterator以公有方式继承_iterator
+        friend class KeyTree;    //友元类：KeyTree
+        stack<Iter_Val> kept; 
         public:
-        depth_iterator():_iterator(){}
-        depth_iterator(KeyTree* t):_iterator(t){}
+        depth_iterator():_iterator(){}   //构造函数
+        depth_iterator(KeyTree* t):_iterator(t){}  //构造函数
         depth_iterator& operator++();
         depth_iterator operator++(int){
             depth_iterator ite = *this;
