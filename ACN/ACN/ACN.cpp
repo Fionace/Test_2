@@ -1,7 +1,7 @@
 #include "ACN.h"
 #include <iostream>
-typedef KeyTree<char,NodeData> TreeType;
-ACN::ACN()
+typedef KeyTree<char,NodeData> TreeType; //？这里为什么还要typedef
+ACN::ACN()  //构造函数
 {
     head->state= 0;
     size = 1;
@@ -9,12 +9,12 @@ ACN::ACN()
 void ACN::add_pattern(const char* pat)
 {
     TreeType::iterator ite;
-    ite = head.iter();
+    ite = head.iter();//返回一个深度迭代的迭代器
     const char* read = pat;
     NodeData ins;
     while(*read!=0){
         if(!ite->has_key(*read)){
-            ins.state = size++;
+            ins.state = size++; //size是状态编号
             ite = ite->add_child(*read, ins);
             invalid = true;
         }else{
@@ -22,12 +22,12 @@ void ACN::add_pattern(const char* pat)
         }
         read++;
     }
-    output[ite->v().state].push_back(pat);
+    output[ite->v().state].push_back(pat);//添加输出
 }
 TreeType* ACN::_goto(TreeType* from,char key)
 {
     if(from == &head){
-        if(head.has_key(key)) return head[key];
+        if(head.has_key(key)) return head[key];  //根据图理解
         else return &head;
     }else{
         if(from->has_key(key)) return (*from)[key];
@@ -38,7 +38,7 @@ void ACN::caculate_failure()
 {
     if(!invalid) return;
     failure.resize(size);
-    TreeType::wide_iterator ite;
+    TreeType::wide_iterator ite;//广度迭代器
     for(ite = head.wide_iter();ite!=false;ite++){
         if(ite->depth()<=1) 
             failure[(*ite)->state]=&head;
@@ -54,7 +54,7 @@ void ACN::caculate_failure()
             }
         }
     }
-    invalid = false;
+    invalid = false; //计算完失败函数则将invalid置为false.
 }
 void ACN::open_buffer(const char* buff)
 {
@@ -68,8 +68,7 @@ void ACN::clear()
     tree_ptr = &head;
     last_result = NULL;
 }
-
-bool ACN::fetch(string& res,int& pos)
+bool ACN::fetch(string& res,int& pos)   //参数是引用形式
 {
     if(invalid) caculate_failure();
     char read;
