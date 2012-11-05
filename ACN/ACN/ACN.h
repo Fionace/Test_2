@@ -31,17 +31,17 @@ class ACN{
     const char* document;
     const char* read_ptr;
     TreeType* tree_ptr;
-    map<int,vector<string> > output;
-    vector<TreeType*> failure;
-    vector<string>* last_result;
+    map<int,vector<string> > output;//输出结构
+    vector<TreeType*> failure;  //失败函数，转向某一状态结点
+    vector<string>* last_result; //最终输出结果
     int last_idx;
     bool invalid;
-    void caculate_failure();
-    TreeType* _goto(TreeType* from,char key);
+    void caculate_failure();  //计算输出函数
+    TreeType* _goto(TreeType* from,char key);//转向函数
     public:
     ACN();
     void add_pattern(const char* pat);
     void open_buffer(const char* buff);
-    bool fetch(string& res,int& pos);
+    bool fetch(string& res,int& pos);//查找
     void clear();
 };
