@@ -72,7 +72,7 @@ bool ACN::fetch(string& res,int& pos)   //参数是引用形式
 {
     if(invalid) caculate_failure();
     char read;
-    if(last_result){
+    if(last_result){   //想要这块执行看来需要循环调用，找到所有匹配输出结果
         res = (*last_result)[last_idx];
         pos = read_ptr-document-res.size();
         last_idx++;
@@ -80,13 +80,13 @@ bool ACN::fetch(string& res,int& pos)   //参数是引用形式
         return true;
     }
     while(*read_ptr){
-        read = *read_ptr;
+        read = *read_ptr;//读入一个字符
         tree_ptr = _goto(tree_ptr,read);
         vector<string>& c = output[tree_ptr->v().state];
         if(!c.empty()){
             res = c[0];
             read_ptr++;
-            pos = read_ptr-document-res.size();
+            pos = read_ptr-document-res.size(); //找到的匹配串的开始位置
             tree_ptr = _goto(tree_ptr,read);
             if(c.size()>1){
                 last_result = &c;
