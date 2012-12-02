@@ -30,7 +30,6 @@ int main()
 //    bitset<32> vec(0x1011);
  // cout<<vec<<endl;
 // vector<int>::iterator iter=(s.begin()+s.end())/2;
- //cout<<*iter<<endl;
     /*if(s.empty())
     cout<<"Is empty!"<<endl;
     else
