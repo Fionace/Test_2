@@ -5,12 +5,6 @@
 using namespace std;
 int main()
 {
-    /* tell me how to
-     do it  
-    cout<<*"<<" ";
-    cout<<"*"<<" ";
-//    cout<< "" <<" ";
-      cout<<"xuce "<<endl;*/ 
   //  for(int i=0;i!=10;i++)
 /*  int value,sum=0;
   while(cin>>value)
